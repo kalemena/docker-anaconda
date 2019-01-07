@@ -1,0 +1,29 @@
+= Docker Anaconda 
+
+ifdef::env-github[]
+image:https://travis-ci.org/kalemena/docker-anaconda.svg[Travis build status, link=https://travis-ci.org/kalemena/anaconda]
+image:https://images.microbadger.com/badges/version/kalemena/anaconda.svg[Docker Version, link=https://microbadger.com/images/kalemena/anaconda]
+image:https://images.microbadger.com/badges/image/kalemena/anaconda.svg[Docker Hub, link=https://hub.docker.com/r/kalemena/anaconda/tags]
+endif::[]
+
+== Building image
+
+[source,bash]
+----
+$ docker build -t kalemena/anaconda:3-2018.12 .
+----
+
+== Running image
+
+[source,bash]
+----
+$ docker run -p 8888:8888 -v "$PWD/notebooks:/opt/notebooks" -d kalemena/anaconda:3-2018.12
+----
+
+== Open Jupyter
+
+Open http://localhost:8888/ (password is 'root')
+
+== Resources
+
+* Docker re-factored image originaly from evheniy/docker-data-science 
