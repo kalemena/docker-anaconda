@@ -1,0 +1,36 @@
+sudo: required
+
+services:
+  - docker
+
+env:
+  global:
+    - REGISTRY_USER=kalemena
+    - secure: "QBSRYj0jC9vOA9LIPZxLWTPMwJCJGtOI902/YbUo5LH8jU/bAFqpZbO12DOWNqC2NTpLtVoWTliVyzz0BnvvN2XKpFEID9CFB54ghtfrqT58MrpeSMN/8PIoAO+3o1XS8YeBs7qVuo+hfpz86NpOxHKSB/q33ezBf32JEJbCHjhLr+3iVKr96l1rLBUiozdziJHQxm+BOskwmRbZcrRysOYj6ScSmcZEWOWCca7hNJvtOXHAyO276Kn1ZUC8SGP2TtpxJOrPPhTRRCX6N6Qrtk8vKb7fLr0spBEgi6saVA8jhksJ4XLubgfvm1NTmO1p7hQU+DrhCnGNCJmnzi+yaitFKQIrct59EFgLdOROPBjRtyZUD4632X4dXlx5mQmxCaSYGAezZ5DuT+fg9MnUyIEGm1VVOQ2ThRrTrWAOmdjjN79NwusTm7i2aHLCgHpvJVPRyG0BydrGeT+zrQowNUngFjUYbGWpellmIA5gOlkaDvMSPivhqsPHTkrvr/1jhqosK04HNaMPfOFEUUOxO+WCILreoPOIk7d4nCPdl53qP6LBXwLmSP61KxFbqYYA6WQ2C7WPpbucLKtnFqgR5okPWXcXOQutLoUgacpleOjsSpkq8RK7h/oMWyi7n/8RJi/U0SZebDOWe2coqexrhJBbpLhDqyPpYolEMILt0SM="
+  matrix:
+    - IMAGE="kalemena/anaconda" VERSION="3-2018.12" REPO="kalemena/docker-anaconda"
+
+before_script:
+  - docker pull centos:7
+  - docker pull ${IMAGE}:${VERSION} || true
+
+script:
+  - |
+    docker build --pull --cache-from ${IMAGE}:${VERSION} \
+      -t ${IMAGE}:${VERSION} \
+      -f Dockerfile \
+      --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
+      --build-arg VCS_REF=`git rev-parse --short HEAD` \
+      --build-arg VERSION=`cat VERSION` .
+  - docker ps -a
+  - docker tag ${IMAGE}:${VERSION} ${IMAGE}:latest
+  - docker images
+
+before_deploy:
+  - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
+
+deploy:
+  provider: script
+  script: docker push ${IMAGE}:${VERSION}; docker push ${IMAGE}:latest
+  on:
+    branch: master
