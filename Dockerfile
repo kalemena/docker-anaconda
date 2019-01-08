@@ -30,6 +30,10 @@ RUN conda update conda; \
     conda update anaconda; \
     conda update --all
 
+ADD requirements.txt /
+
+RUN conda install --file requirements.txt -y
+
 RUN mkdir /opt/notebooks; \
     jupyter notebook --generate-config --allow-root; \
     echo "c.NotebookApp.password = u'sha1:6a3f528eec40:6e896b6e4828f525a6e20e5411cd1c8075d68619'" >> /root/.jupyter/jupyter_notebook_config.py
