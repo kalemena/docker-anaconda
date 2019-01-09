@@ -1,0 +1,6 @@
+jupyterlab:
+  image: kalemena/anaconda:${VERSION}
+  ports:
+    - "8888:8888"
+  volumes:
+    - ./notebooks:/opt/notebooks
