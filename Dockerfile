@@ -18,21 +18,25 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 
 RUN yum install -y epel-release; \
     yum install -y python-pip python-devel gcc; \
-    yum install -y wget bzip2;
+    yum install -y wget bzip2; \
+    yum clean all; rm -rf /var/tmp/yum-*/*.rpm;
+
+ENV LANG=C.UTF-8
+ENV PATH /root/anaconda3/bin:$PATH
+ADD requirements.txt /
 
 RUN wget https://repo.anaconda.com/archive/Anaconda${VERSION}-Linux-x86_64.sh; \
     bash Anaconda${VERSION}-Linux-x86_64.sh -b; \
-    rm Anaconda${VERSION}-Linux-x86_64.sh;
+    rm Anaconda${VERSION}-Linux-x86_64.sh; \
+    conda clean -a -y;
 
-ENV PATH /root/anaconda3/bin:$PATH
+RUN conda install --file requirements.txt -y; \
+    conda clean -a -y;
 
 RUN conda update conda; \
     conda update anaconda; \
-    conda update --all
-
-ADD requirements.txt /
-
-RUN conda install --file requirements.txt -y
+    conda update --all; \
+    conda clean -a -y;
 
 RUN mkdir /opt/notebooks; \
     jupyter notebook --generate-config --allow-root; \
@@ -40,4 +44,5 @@ RUN mkdir /opt/notebooks; \
 
 EXPOSE 8888
 
-CMD ["jupyter", "notebook", "--allow-root", "--notebook-dir=/opt/notebooks", "--ip='0.0.0.0'", "--port=8888", "--no-browser"]
+CMD ["jupyter", "lab", "--allow-root", "--notebook-dir=/opt/notebooks", "--ip='0.0.0.0'", "--port=8888", "--no-browser"]
+
