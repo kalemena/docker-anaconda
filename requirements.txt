@@ -5,3 +5,7 @@ matplotlib
 opencv
 jupyter
 notebook
+pandas
+theano
+keras
+mkl-service

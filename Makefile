@@ -5,6 +5,7 @@ all: build start
 
 build:
 	@echo "+++ Building docker image +++"
+	docker pull centos:7
 	docker build --build-arg VERSION=$(VERSION) -t kalemena/anaconda:$(VERSION) .
 
 start:
