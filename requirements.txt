@@ -5,4 +5,5 @@ matplotlib
 opencv
 jupyter
 pandas
+keras
 mkl-service
