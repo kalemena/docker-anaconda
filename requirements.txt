@@ -5,5 +5,5 @@ matplotlib
 opencv
 jupyter
 pandas
-keras
+theano
 mkl-service
