@@ -8,7 +8,7 @@ jobs:
     - name: Build Docker Image
       env:
         IMAGE: "kalemena/anaconda"
-        VERSION: "3-2018.12"
+        VERSION: "2-2019.10"
       run: |
         docker -v
         docker pull centos:7
