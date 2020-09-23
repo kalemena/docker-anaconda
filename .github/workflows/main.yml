@@ -10,4 +10,4 @@ jobs:
         IMAGE: "kalemena/anaconda"
         VERSION: "3-2020.07"
       run: |
-        sh ./github/workflows/build.sh
+        sh .github/workflows/build.sh
