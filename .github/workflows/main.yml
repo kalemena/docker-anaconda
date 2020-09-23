@@ -11,3 +11,8 @@ jobs:
         VERSION: "3-2020.07"
       run: |
         sh .github/workflows/build.sh
+        # PUSH
+        docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
+        docker push ${IMAGE}:${VERSION}
+        docker push ${IMAGE}:latest
+        docker logout

@@ -21,9 +21,3 @@ docker build --pull --cache-from ${IMAGE}:${VERSION} \
 docker ps -a
 docker tag ${IMAGE}:${VERSION} ${IMAGE}:latest
 docker images
-
-# PUSH
-docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
-docker push ${IMAGE}:${VERSION}
-docker push ${IMAGE}:latest
-docker logout
