@@ -1,5 +1,10 @@
 name: Pipeline
-on: [push]
+
+# on: [push]
+on:
+  release:
+    types: [published]
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -8,7 +13,7 @@ jobs:
     - name: Build Docker Image
       env:
         IMAGE: "kalemena/anaconda"
-        VERSION: "3-2020.07"
+        VERSION: "3-2020.11"
       run: |
         sh .github/workflows/build.sh
         # PUSH
