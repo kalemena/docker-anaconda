@@ -1,11 +1,11 @@
 
-VERSION := 3-2020.07
+VERSION := 3-2020.11
 
 all: build start
 
 build:
 	@echo "+++ Building docker image +++"
-	docker pull centos:7
+	docker pull ubuntu:20.04
 	docker build --build-arg VERSION=$(VERSION) -t kalemena/anaconda:$(VERSION) .
 
 start:
