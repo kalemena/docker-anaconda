@@ -1,4 +1,4 @@
-FROM centos:7
+FROM ubuntu:20.04
 
 MAINTAINER Kalemena
 
@@ -13,31 +13,35 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.vcs-url="https://github.com/kalemena/docker-anaconda" \
       org.label-schema.vendor="Kalemena" \
-      org.label-schema.version=$VERSION \
+      org.label-schema.version=${VERSION} \
       org.label-schema.schema-version="1.0"
 
-RUN yum install -y epel-release \
-    && yum install -y python-pip python-devel gcc \
-    && yum install -y wget bzip2 \
-    && yum clean all \
-    && rm -rf /var/tmp/yum-*/*.rpm;
+RUN apt-get update -y \
+    && apt-get install -y \
+        wget \
+        libgl1-mesa-glx libegl1-mesa \
+        libxrandr2 libxrandr2 \
+        libxss1 libxcursor1 \
+        libxcomposite1 libasound2 \
+        libxi6 libxtst6 \
+    && apt-get clean \
+	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ENV LANG=C.UTF-8
-ENV PATH /root/anaconda3/bin:$PATH
-ADD requirements.txt /
+ENV PATH=$PATH:/root/anaconda3/bin
 
 RUN wget https://repo.anaconda.com/archive/Anaconda${VERSION}-Linux-x86_64.sh \
     && bash Anaconda${VERSION}-Linux-x86_64.sh -b \
     && rm Anaconda${VERSION}-Linux-x86_64.sh \
-    && conda clean -a -y;
+    && conda update -y conda \
+    && conda update -y anaconda \
+    && conda update -y --all \
+    && conda clean -a -y
 
-RUN conda install --file requirements.txt -y \
-    && conda clean -a -y;
+ADD requirements.txt /
 
-RUN conda update conda \
-    && conda update anaconda \
-    && conda update --all \
-    && conda clean -a -y;
+# RUN conda install --file /requirements.txt -y \
+#     && conda clean -a -y;
 
 RUN mkdir /opt/notebooks \
     && jupyter notebook --generate-config --allow-root \
