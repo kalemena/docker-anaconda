@@ -40,8 +40,8 @@ RUN wget https://repo.anaconda.com/archive/Anaconda${VERSION}-Linux-x86_64.sh \
 
 ADD requirements.txt /
 
-# RUN conda install --file /requirements.txt -y \
-#     && conda clean -a -y;
+RUN conda install --file /requirements.txt -y \
+    && conda clean -a -y;
 
 RUN mkdir /opt/notebooks \
     && jupyter notebook --generate-config --allow-root \
