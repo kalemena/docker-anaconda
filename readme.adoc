@@ -9,6 +9,7 @@ endif::[]
 
 == Building image
 
+.Example building
 [source,bash]
 ----
 $ docker build -t kalemena/anaconda:3-2018.12 .
@@ -16,9 +17,24 @@ $ docker build -t kalemena/anaconda:3-2018.12 .
 
 == Running image
 
+.Example running as command
 [source,bash]
 ----
 $ docker run -p 8888:8888 -v "$PWD/notebooks:/opt/notebooks" -d kalemena/anaconda:3-2018.12
+----
+
+.Example docker-compose
+[source,bash]
+----
+$ docker-compose up -d
+----
+
+.Example Makefile
+[source,bash]
+----
+$ make start
+$ make stop
+$ make clean
 ----
 
 == Open Jupyter
