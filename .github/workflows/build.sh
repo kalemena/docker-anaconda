@@ -12,7 +12,6 @@ docker pull ${IMAGE}:${VERSION} || true
 docker build --pull --cache-from ${IMAGE}:${VERSION} \
     -t ${IMAGE}:${VERSION} \
     -f Dockerfile \
-    --build-arg NODERED_VERSION=${VERSION} \
     --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
     --build-arg VCS_REF=`git rev-parse --short HEAD` \
     --build-arg VERSION=${VERSION} .
