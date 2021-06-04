@@ -1,11 +1,12 @@
 #!/bin/bash
 
+BASE_IMAGE=${BASE_IMAGE:-python:3.8.8}
 IMAGE=${IMAGE:-kalemena/anaconda}
 VERSION=${VERSION:-latest}
 
 # PREPARE
 docker -v
-docker pull centos:7
+docker pull ${BASE_IMAGE} || true
 docker pull ${IMAGE}:${VERSION} || true
 
 # BUILD
