@@ -1,7 +1,5 @@
 FROM python:3.8.8
 
-MAINTAINER Kalemena
-
 # Build-time metadata as defined at http://label-schema.org
 ARG BUILD_DATE
 ARG VCS_REF
