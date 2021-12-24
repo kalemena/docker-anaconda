@@ -1,4 +1,4 @@
-name: Pipeline
+name: Build Docker
 
 # on: [push]
 on:
@@ -13,9 +13,9 @@ jobs:
     - name: Build Docker Image
       env:
         IMAGE: "kalemena/anaconda"
-        VERSION: "3-2021.04"
+        VERSION: "3-2021.05"
       run: |
-        sh .github/workflows/build.sh
+        sh .github/workflows/action-build-docker.sh
         # PUSH
         docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
         docker push ${IMAGE}:${VERSION}
